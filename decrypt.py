@@ -11,6 +11,7 @@ argparser.add_argument('-i', '--input', metavar='filename', required=True, help=
 argparser.add_argument('-o', '--output', metavar='filename', help="output filename or '-' for standard output")
 argparser.add_argument('-c', '--check', metavar='src',
                        help='check whether encryption completed correctly')
+argparser.add_argument('-z', '--zenkaku', action='store_true', help="use two-byte characters for answers")
 args = argparser.parse_args()
 
 input_file = args.input
@@ -28,6 +29,13 @@ def read_int(f):
 
 def read_str(f, strlen):
     return f.read(strlen).decode("utf-8")
+
+def get_answer():
+    if args.zenkaku:
+        print("> ", end="")
+        return input()
+    else:
+        return getpass.getpass("> ")
 
 def ctz(b):
     cnt = 0
@@ -100,7 +108,7 @@ with open(input_file, mode='rb') as f:
 
 for i in range(n):
     print(questions[i])
-    answers[i] = getpass.getpass("> ")
+    answers[i] = get_answer()
 
 for i in range(n):
     a = hashlib.sha3_256(answers[i].encode('utf-8'))

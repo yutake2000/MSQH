@@ -14,6 +14,7 @@ enc_description = "AES-256"
 argparser = ArgumentParser()
 argparser.add_argument('-i', '--input', metavar='filename', required=True, help="input filename")
 argparser.add_argument('-o', '--output', metavar='filename', required=True, help="output filename")
+argparser.add_argument('-z', '--zenkaku', action='store_true', help="use two-byte characters for answers")
 args = argparser.parse_args()
 
 input_file = args.input
@@ -41,6 +42,13 @@ def write_str(f, s):
     s = s.encode("utf-8")
     f.write(s)
 
+def get_answer():
+    if args.zenkaku:
+        print("> ", end="")
+        return input()
+    else:
+        return getpass.getpass("> ")
+
 def ctz(b):
     cnt = 0
     while b != 0 and (b & 1) == 0:
@@ -66,16 +74,16 @@ print("答えを入力してください。")
 
 for i in range(n):
     print(questions[i])
-    answers[i] = getpass.getpass("> ")
+    answers[i] = get_answer()
 
 print("それぞれもう一度答えを入力してください。")
 
 for i in range(n):
     print(questions[i])
-    ans = getpass.getpass("> ")
+    ans = get_answer()
     if ans != answers[i]:
         print("1回目の答えと異なります。もう一度入力してください。")
-        ans2 = getpass.getpass("> ")
+        ans2 = get_answer()
         if ans2 == answers[i]:
             print("一致しました。")
         else:
