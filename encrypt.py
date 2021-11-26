@@ -7,7 +7,7 @@ import getpass
 from argparse import ArgumentParser
 
 major_version = 1
-minor_version = 0
+minor_version = 1
 hash_description = "SHA3-256"
 enc_description = "AES-256"
 
