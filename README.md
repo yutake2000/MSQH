@@ -35,6 +35,16 @@ python3 decrypt.py -i input_file -c src_file
 src_file は暗号化する前のファイル<br>
 暗号化した後、元のファイルを削除する前に復号ができるかどうか試すと良いでしょう。<br>
 
+## オプション
+
+-	-z --zenkaku
+	-	encrypt.py, decrypt.py 両方で有効
+	-	答えに全角文字を入力できるようにする(パスワード入力のモードではなくなる)
+```
+python3 encrypt.py -i input_file -o output_file -z
+python3 decrypt.py -i input_file -z
+```
+
 ## 例
 
 sample.msqh は以下のコマンドを打つことで復号できます。<br>
