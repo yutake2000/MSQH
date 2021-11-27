@@ -47,18 +47,20 @@ python3 decrypt.py -i input_file -z
 
 ## 例
 
-sample.msqh は以下のコマンドを打つことで復号できます。<br>
+sample.msqh, sample2.msqh は以下のコマンドを打つことで復号できます。<br>
 秘密の質問は有名なクイズになっていて、必要正解数は2問です。<br>
+sample2.msqh の解答は全角なので -z オプションを指定する必要があります。<br>
 ```
 python3 decrypt.py -i sample.msqh
+python3 decrypt.py -i sample2.msqh -o - -z
 ```
 
 次に自分の好きな秘密の質問を設定して暗号化してみましょう。
 ```
-python3 encrypt.py -i sample.txt -o sample2.msqh
+python3 encrypt.py -i sample.txt -o sample3.msqh
 ```
 
 復号可能かどうかも調べておきましょう。
 ```
-python3 decrypt.py -i sample2.msqh -c sample.txt
+python3 decrypt.py -i sample3.msqh -c sample.txt
 ```
