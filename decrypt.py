@@ -1,3 +1,5 @@
+#!/opt/anaconda3/bin/python3
+
 import hashlib
 from Crypto.Cipher import AES
 import random
@@ -116,6 +118,7 @@ for i in range(n):
     answers_hashed[i] = a
 
 keys = defaultdict(int)
+sets = defaultdict(list)
 
 # サイズ m の集合を昇順に列挙する
 khi = 0
@@ -130,6 +133,7 @@ while b < BN:
             xor ^= answers_hashed[i]
 
     keys[xor] += 1
+    sets[xor].append(b)
 
     khi += 1
     t = b | (b - 1)
@@ -137,6 +141,7 @@ while b < BN:
 
 keys = sorted(keys.items(), key=lambda kv:kv[1], reverse=True)
 data_decrypted = None
+key = None
 
 for k, cnt in keys:
     # すべての候補について先頭のみ復号し、合っていればすべてを復号する
@@ -145,6 +150,7 @@ for k, cnt in keys:
     head_decrypted = cipher.decrypt(data_encrypted[0:16])
 
     if hash(head_decrypted) == head_hashed:
+        key = k
         cipher = AES.new(key_bytes, AES.MODE_CBC, iv)
         data_decrypted = cipher.decrypt(data_encrypted)
         break
@@ -163,7 +169,21 @@ if src_file != None:
         hashSrc = hash(f.read())
 
     if hashOut == hashSrc:
-        print("復号可能です。")
+
+        is_correct = [False] * n
+        for s in sets[key]:
+            print(s)
+            for i in range(n):
+                if ((s >> i) & 1) == 1:
+                    is_correct[i] = True
+        c = is_correct.count(True)
+
+        print(f"復号可能です({n}問中{c}問正解)。")
+
+        for i in range(n):
+            print("o" if is_correct[i] else "x", end="")
+        print()
+
     else:
         print("一部復号できませんでした。")
 
