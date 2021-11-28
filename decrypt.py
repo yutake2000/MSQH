@@ -172,7 +172,6 @@ if src_file != None:
 
         is_correct = [False] * n
         for s in sets[key]:
-            print(s)
             for i in range(n):
                 if ((s >> i) & 1) == 1:
                     is_correct[i] = True
